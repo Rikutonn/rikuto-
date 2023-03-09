@@ -34,7 +34,7 @@
                 $results = $stmt -> fetchAll();
 
                 foreach($results as $row){  //編集元の内容を取得
-                    if($row['id'] == $id){  
+                    if($row['id'] == $id && $row['pass'] == $epass){  
                         $ename = $row['name'];
                         $ecomment = $row['comment'];
                         $pass = $row['pass'];
@@ -66,8 +66,9 @@
             $id = $_POST["edit2"]; 
             $name = $_POST["name"]; //編集内容の取得
             $comment = $_POST["str"];
-            $pass = $_POST["epass"];
+            $pass = $_POST["cpass"];
             $date = date("Y/m/d H:i:s");
+        if(!empty($_POST["cpass"])){
             $sql = 'update tbtest set name=:name,comment=:comment, pass=:pass, date=:date where id=:id';
             $stmt = $pdo->prepare($sql);
             $stmt -> bindParam(':id', $id, PDO::PARAM_INT);    //編集実行（書き換え）
@@ -76,6 +77,7 @@
             $stmt -> bindParam(':date', $date, PDO::PARAM_STR);
             $stmt -> bindParam(':pass', $pass, PDO::PARAM_STR);
             $stmt ->execute();
+        }
             
             
         }else{
